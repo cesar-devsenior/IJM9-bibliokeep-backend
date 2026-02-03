@@ -1,17 +1,18 @@
 package com.devsenior.cdiaz.bibliokeep.service.impl;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.devsenior.cdiaz.bibliokeep.model.dto.DashboardStatsDTO;
-import com.devsenior.cdiaz.bibliokeep.model.entity.User;
 import com.devsenior.cdiaz.bibliokeep.repository.BookRepository;
 import com.devsenior.cdiaz.bibliokeep.repository.LoanRepository;
 import com.devsenior.cdiaz.bibliokeep.repository.UserRepository;
 import com.devsenior.cdiaz.bibliokeep.service.StatsService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

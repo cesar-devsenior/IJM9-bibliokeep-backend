@@ -1,14 +1,15 @@
 package com.devsenior.cdiaz.bibliokeep.scheduled;
 
-import com.devsenior.cdiaz.bibliokeep.model.entity.Loan;
-import com.devsenior.cdiaz.bibliokeep.repository.LoanRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.List;
+import com.devsenior.cdiaz.bibliokeep.model.entity.Loan;
+import com.devsenior.cdiaz.bibliokeep.repository.LoanRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
