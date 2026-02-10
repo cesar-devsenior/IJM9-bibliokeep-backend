@@ -1,17 +1,22 @@
 package com.devsenior.cdiaz.bibliokeep.service.impl;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.devsenior.cdiaz.bibliokeep.service.JwtService;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Servicio para gestionar operaciones JWT (JSON Web Token).
@@ -19,7 +24,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -39,22 +44,26 @@ public class JwtService {
     /**
      * Genera un token JWT con los datos proporcionados.
      *
-     * @param claims Mapa con los datos a incluir en el token
+     * @param claims  Mapa con los datos a incluir en el token
      * @param subject Asunto del token (generalmente el identificador del usuario)
      * @return Token JWT generado
      */
+    @Override
     public String generateToken(Map<String, Object> claims, String subject) {
         return buildToken(claims, subject, expirationTime);
     }
 
     /**
-     * Genera un token JWT con los datos proporcionados y tiempo de expiración personalizado.
+     * Genera un token JWT con los datos proporcionados y tiempo de expiración
+     * personalizado.
      *
-     * @param claims Mapa con los datos a incluir en el token
-     * @param subject Asunto del token (generalmente el identificador del usuario)
+     * @param claims           Mapa con los datos a incluir en el token
+     * @param subject          Asunto del token (generalmente el identificador del
+     *                         usuario)
      * @param expirationTimeMs Tiempo de expiración en milisegundos
      * @return Token JWT generado
      */
+    @Override
     public String generateToken(Map<String, Object> claims, String subject, long expirationTimeMs) {
         return buildToken(claims, subject, expirationTimeMs);
     }
@@ -65,6 +74,7 @@ public class JwtService {
      * @param subject Asunto del token (generalmente el identificador del usuario)
      * @return Token JWT generado
      */
+    @Override
     public String generateToken(String subject) {
         return generateToken(new HashMap<>(), subject);
     }
@@ -72,8 +82,8 @@ public class JwtService {
     /**
      * Construye un token JWT con los parámetros especificados.
      *
-     * @param claims Mapa con los datos a incluir en el token
-     * @param subject Asunto del token
+     * @param claims           Mapa con los datos a incluir en el token
+     * @param subject          Asunto del token
      * @param expirationTimeMs Tiempo de expiración en milisegundos
      * @return Token JWT generado
      */
@@ -101,6 +111,7 @@ public class JwtService {
      * @param token Token JWT a validar
      * @return true si el token es válido, false en caso contrario
      */
+    @Override
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -131,7 +142,7 @@ public class JwtService {
      * @return Claims del token
      * @throws RuntimeException si el token es inválido
      */
-    public Claims getClaims(String token) {
+    private Claims getClaims(String token) {
         try {
             return Jwts.parser()
                     .verifyWith(getSigningKey())
@@ -147,14 +158,42 @@ public class JwtService {
     /**
      * Extrae un claim específico del token JWT.
      *
-     * @param token Token JWT del cual extraer el claim
+     * @param token    Token JWT del cual extraer el claim
      * @param claimKey Clave del claim a extraer
      * @return Valor del claim
      * @throws RuntimeException si el token es inválido o el claim no existe
      */
-    public Object getClaim(String token, String claimKey) {
+    @Override
+    public <T> T getClaim(String token, String claimKey, Class<T> clazz) {
         Claims claims = getClaims(token);
-        return claims.get(claimKey);
+        return claims.get(claimKey, clazz);
+    }
+
+    /**
+     * Extrae un claim específico del token JWT.
+     *
+     * @param token    Token JWT del cual extraer el claim
+     * @param claimKey Clave del claim a extraer
+     * @return Valor del claim
+     * @throws RuntimeException si el token es inválido o el claim no existe
+     */
+    @Override
+    public <T> List<T> getClaimList(String token, String claimKey, Class<T> clazz) {
+        var claims = getClaims(token);
+
+        var value = claims.get(claimKey);
+
+        if (value == null) {
+            return List.of();
+        }
+
+        if (value instanceof List<?> raw) {
+            return raw.stream()
+                    .map(clazz::cast)
+                    .toList();
+        }
+
+        return List.of();
     }
 
     /**
@@ -163,6 +202,7 @@ public class JwtService {
      * @param token Token JWT
      * @return Subject del token
      */
+    @Override
     public String getSubject(String token) {
         try {
             return getClaims(token).getSubject();
@@ -180,4 +220,5 @@ public class JwtService {
     public long getExpirationTime() {
         return expirationTime;
     }
+
 }

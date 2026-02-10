@@ -1,0 +1,41 @@
+# csamboni: eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiZmRjZWJhNmEtMWFiNy00YTc3LWIzOGItMDBjM2IyNzUyZjgzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6ImNzYW1ib25pQGV4YW1wbGUuY29tIiwiaWF0IjoxNzcwMjYzNTQxLCJleHAiOjE3NzAzNDk5NDF9.ChCpMlEoCJRCPPw3ZLnf3BpVGP4dZKnBXK2QPv30syocFBZjAeVIkTGy3wikC0Ju
+# cdiaz: eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOWYyNTFlOWMtNDE5OC00NWM2LWJlOGMtYWJlOTk0NTI3M2Q4Iiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI2MzY1OSwiZXhwIjoxNzcwMzUwMDU5fQ.Kd2FsNHiE_mi6IZgMgEx-AQ7Y0hE0LqKdUIPGMS2LW9tzerIFykiXD4U5eBuQID0
+# damaya: eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOTkwZjRlOWMtN2Y3NS00YWNhLThhMGMtY2JiZjNiOWYxMDdmIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6ImRhbWF5YUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI2NDk4MiwiZXhwIjoxNzcwMzUxMzgyfQ.ncDTEkXxfQJmGTEnpwXoUTNaaRLWiaMxbus2vKycbqYYZ7dgq2yayqLl85_-lZKU
+
+###
+GET http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiZmRjZWJhNmEtMWFiNy00YTc3LWIzOGItMDBjM2IyNzUyZjgzIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6ImNzYW1ib25pQGV4YW1wbGUuY29tIiwiaWF0IjoxNzcwMjYzNTQxLCJleHAiOjE3NzAzNDk5NDF9.ChCpMlEoCJRCPPw3ZLnf3BpVGP4dZKnBXK2QPv30syocFBZjAeVIkTGy3wikC0Ju
+
+###
+GET http://localhost:8080/api/users/990f4e9c-7f75-4aca-8a0c-cbbf3b9f107f
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOTkwZjRlOWMtN2Y3NS00YWNhLThhMGMtY2JiZjNiOWYxMDdmIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6ImRhbWF5YUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI2NDk4MiwiZXhwIjoxNzcwMzUxMzgyfQ.ncDTEkXxfQJmGTEnpwXoUTNaaRLWiaMxbus2vKycbqYYZ7dgq2yayqLl85_-lZKU
+
+###
+POST http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOWYyNTFlOWMtNDE5OC00NWM2LWJlOGMtYWJlOTk0NTI3M2Q4Iiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI2MzY1OSwiZXhwIjoxNzcwMzUwMDU5fQ.Kd2FsNHiE_mi6IZgMgEx-AQ7Y0hE0LqKdUIPGMS2LW9tzerIFykiXD4U5eBuQID0
+Content-Type: application/json
+
+{
+    "email": "damaya@example.com",
+    "password": "damaya123",
+    "annualGoal": 3,
+    "roles": [
+        "ROLE_USER"
+    ]
+}
+
+###
+PUT http://localhost:8080/api/users/990f4e9c-7f75-4aca-8a0c-cbbf3b9f107f
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOTkwZjRlOWMtN2Y3NS00YWNhLThhMGMtY2JiZjNiOWYxMDdmIiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInN1YiI6ImRhbWF5YUBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI2NDk4MiwiZXhwIjoxNzcwMzUxMzgyfQ.ncDTEkXxfQJmGTEnpwXoUTNaaRLWiaMxbus2vKycbqYYZ7dgq2yayqLl85_-lZKU
+Content-Type: application/json
+
+{
+    "email": "damaya@example.com",
+    "password": "damaya123",
+    "annualGoal": 10
+}
+
+###
+DELETE http://localhost:8080/api/users/3fa4e96f-923e-4d94-a5fe-ee0ea90ee26b
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInVzZXItaWQiOiI5ZjI1MWU5Yy00MTk4LTQ1YzYtYmU4Yy1hYmU5OTQ1MjczZDgiLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI1OTYzNSwiZXhwIjoxNzcwMzQ2MDM1fQ.QIJYTs7TGMePtr-bJLk-F8XFlc6UY2sociyGKDelYIIIEteuLY1wOBt5drabUdz-
+

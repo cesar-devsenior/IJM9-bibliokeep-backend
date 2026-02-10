@@ -3,19 +3,21 @@ package com.devsenior.cdiaz.bibliokeep.service.impl;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsenior.cdiaz.bibliokeep.mapper.BookMapper;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookResponseDTO;
+import com.devsenior.cdiaz.bibliokeep.model.vo.JwtUser;
 import com.devsenior.cdiaz.bibliokeep.repository.BookRepository;
 import com.devsenior.cdiaz.bibliokeep.service.BookService;
 
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
@@ -23,21 +25,21 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookResponseDTO createBook(BookRequestDTO bookRequestDTO, UUID userId) {
+    public BookResponseDTO createBook(BookRequestDTO bookRequestDTO) {
         var book = bookMapper.toEntity(bookRequestDTO);
-        book.setOwnerId(userId);
-        
+        book.setOwnerId(getUserId());
+
         var savedBook = bookRepository.save(book);
         return bookMapper.toResponseDTO(savedBook);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BookResponseDTO getBookById(Long id, UUID userId) {
+    public BookResponseDTO getBookById(Long id) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
 
-        if (!book.getOwnerId().equals(userId)) {
+        if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para acceder a este libro");
         }
 
@@ -46,8 +48,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<BookResponseDTO> getAllBooksByUser(UUID userId) {
-        var books = bookRepository.findByOwnerId(userId);
+    public List<BookResponseDTO> getAllBooksByUser() {
+        var books = bookRepository.findByOwnerId(getUserId());
         return books.stream()
                 .map(bookMapper::toResponseDTO)
                 .toList();
@@ -55,11 +57,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO, UUID userId) {
+    public BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
 
-        if (!book.getOwnerId().equals(userId)) {
+        if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para modificar este libro");
         }
 
@@ -70,11 +72,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void deleteBook(Long id, UUID userId) {
+    public void deleteBook(Long id) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
 
-        if (!book.getOwnerId().equals(userId)) {
+        if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para eliminar este libro");
         }
 
@@ -83,5 +85,15 @@ public class BookServiceImpl implements BookService {
         }
 
         bookRepository.delete(book);
+    }
+
+    private UUID getUserId() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication.getPrincipal() instanceof JwtUser jwt) {
+            return UUID.fromString(jwt.getUserId());
+        }
+
+        return null;
     }
 }

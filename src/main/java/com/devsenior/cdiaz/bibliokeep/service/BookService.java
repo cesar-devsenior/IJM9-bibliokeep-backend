@@ -4,17 +4,16 @@ import com.devsenior.cdiaz.bibliokeep.model.dto.BookRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookResponseDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface BookService {
 
-    BookResponseDTO createBook(BookRequestDTO bookRequestDTO, UUID userId);
+    BookResponseDTO createBook(BookRequestDTO bookRequestDTO);
 
-    BookResponseDTO getBookById(Long id, UUID userId);
+    BookResponseDTO getBookById(Long id);
 
-    List<BookResponseDTO> getAllBooksByUser(UUID userId);
+    List<BookResponseDTO> getAllBooksByUser();
 
-    BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO, UUID userId);
+    BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO);
 
-    void deleteBook(Long id, UUID userId);
+    void deleteBook(Long id);
 }

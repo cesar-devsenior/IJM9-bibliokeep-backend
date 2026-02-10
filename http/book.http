@@ -1,3 +1,21 @@
 ###
 GET http://localhost:8080/api/books
-user-id: 9f251e9c-4198-45c6-be8c-abe9945273d8
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInVzZXItaWQiOiI5ZjI1MWU5Yy00MTk4LTQ1YzYtYmU4Yy1hYmU5OTQ1MjczZDgiLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI1OTYzNSwiZXhwIjoxNzcwMzQ2MDM1fQ.QIJYTs7TGMePtr-bJLk-F8XFlc6UY2sociyGKDelYIIIEteuLY1wOBt5drabUdz-
+
+###
+POST http://localhost:8080/api/books
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl0sInVzZXItaWQiOiI5ZjI1MWU5Yy00MTk4LTQ1YzYtYmU4Yy1hYmU5OTQ1MjczZDgiLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MDI1OTYzNSwiZXhwIjoxNzcwMzQ2MDM1fQ.QIJYTs7TGMePtr-bJLk-F8XFlc6UY2sociyGKDelYIIIEteuLY1wOBt5drabUdz-
+Content-Type: application/json
+
+{
+    "ownerId": "9f251e9c-4198-45c6-be8c-abe9945273d8",
+    "isbn": "6525805909092",
+    "title": "Programando Objetos en Java",
+    "authors": [
+      "Cesar Diaz"
+    ],
+    "description": "Este libro es el ....",
+    "thumbnail": "https://m.media-amazon.com/images/I/61scVK3P5ES._UF1000,1000_QL80_.jpg",
+    "status": "DESEADO",
+    "rating": 1
+}

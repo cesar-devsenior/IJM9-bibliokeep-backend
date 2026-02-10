@@ -6,3 +6,21 @@ Content-Type: application/json
     "email": "cdiaz@example.com",
     "password": "cdiaz123"
 }
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "csamboni@example.com",
+    "password": "csamboni123"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "damaya@example.com",
+    "password": "damaya123"
+}

@@ -9,6 +9,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import com.devsenior.cdiaz.bibliokeep.model.entity.Role;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
 
@@ -22,4 +26,17 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     void updateEntityFromDTO(UserRequestDTO dto, @MappingTarget User entity);
+
+    default List<Role> mapRoles(List<String> roles) {
+        if(roles == null) {
+            return List.of();
+        }
+        return roles.stream()
+            .map(roleName -> {
+                var role = new Role();
+                role.setName(roleName);
+                return role;
+            })
+            .collect(Collectors.toList());
+    }
 }

@@ -11,6 +11,7 @@ import com.devsenior.cdiaz.bibliokeep.model.dto.LoginRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoginResponseDTO;
 import com.devsenior.cdiaz.bibliokeep.repository.UserRepository;
 import com.devsenior.cdiaz.bibliokeep.service.AuthService;
+import com.devsenior.cdiaz.bibliokeep.service.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
