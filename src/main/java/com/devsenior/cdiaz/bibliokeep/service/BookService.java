@@ -16,4 +16,6 @@ public interface BookService {
     BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO);
 
     void deleteBook(Long id);
+
+    List<BookResponseDTO> getBookByQuery(String query);
 }

@@ -1,22 +1,21 @@
 package com.devsenior.cdiaz.bibliokeep.service;
 
+import java.util.List;
+
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoanRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoanResponseDTO;
 
-import java.util.List;
-import java.util.UUID;
-
 public interface LoanService {
 
-    LoanResponseDTO createLoan(LoanRequestDTO loanRequestDTO, UUID userId);
+    LoanResponseDTO createLoan(LoanRequestDTO loanRequestDTO);
 
-    LoanResponseDTO getLoanById(Long id, UUID userId);
+    LoanResponseDTO getLoanById(Long id);
 
-    List<LoanResponseDTO> getAllLoansByUser(UUID userId);
+    List<LoanResponseDTO> getAllLoansByUser();
 
-    LoanResponseDTO updateLoan(Long id, LoanRequestDTO loanRequestDTO, UUID userId);
+    LoanResponseDTO updateLoan(Long id, LoanRequestDTO loanRequestDTO);
 
-    void deleteLoan(Long id, UUID userId);
+    void deleteLoan(Long id);
 
-    LoanResponseDTO returnLoan(Long id, UUID userId);
+    LoanResponseDTO returnLoan(Long id);
 }

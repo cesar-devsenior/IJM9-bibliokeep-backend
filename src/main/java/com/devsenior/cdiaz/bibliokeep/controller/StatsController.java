@@ -1,11 +1,13 @@
 package com.devsenior.cdiaz.bibliokeep.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.devsenior.cdiaz.bibliokeep.model.dto.DashboardStatsDTO;
 import com.devsenior.cdiaz.bibliokeep.service.StatsService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/stats")
@@ -15,8 +17,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @GetMapping("/dashboard")
-    public DashboardStatsDTO getDashboardStats(@RequestHeader("user-id") String userIdHeader) {
-        var userId = UUID.fromString(userIdHeader);
-        return statsService.getDashboardStats(userId);
+    public DashboardStatsDTO getDashboardStats() {
+        return statsService.getDashboardStats();
     }
 }

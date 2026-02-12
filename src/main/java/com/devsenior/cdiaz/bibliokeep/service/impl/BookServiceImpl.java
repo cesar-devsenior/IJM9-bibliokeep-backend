@@ -1,16 +1,13 @@
 package com.devsenior.cdiaz.bibliokeep.service.impl;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsenior.cdiaz.bibliokeep.mapper.BookMapper;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookResponseDTO;
-import com.devsenior.cdiaz.bibliokeep.model.vo.JwtUser;
 import com.devsenior.cdiaz.bibliokeep.repository.BookRepository;
 import com.devsenior.cdiaz.bibliokeep.service.BookService;
 
@@ -18,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends TokenDataService implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
@@ -87,13 +84,13 @@ public class BookServiceImpl implements BookService {
         bookRepository.delete(book);
     }
 
-    private UUID getUserId() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
+    @Override
+    @Transactional(readOnly = true)
+    public List<BookResponseDTO> getBookByQuery(String query) {
+        return bookRepository.findByOwnerIdAndTitleContainingIgnoreCase(getUserId(), query).stream()
+            .map(bookMapper::toResponseDTO)
+            .toList();
 
-        if (authentication.getPrincipal() instanceof JwtUser jwt) {
-            return UUID.fromString(jwt.getUserId());
-        }
-
-        return null;
     }
+
 }
