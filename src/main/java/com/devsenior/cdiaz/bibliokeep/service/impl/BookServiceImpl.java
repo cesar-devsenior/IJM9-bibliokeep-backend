@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.mapper.BookMapper;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.BookResponseDTO;
@@ -34,7 +35,7 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional(readOnly = true)
     public BookResponseDTO getBookById(Long id) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para acceder a este libro");
@@ -56,7 +57,7 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional
     public BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para modificar este libro");
@@ -71,7 +72,7 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional
     public void deleteBook(Long id) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para eliminar este libro");

@@ -7,6 +7,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import com.devsenior.cdiaz.bibliokeep.exception.InvalidCredentialsException;
+import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoginRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoginResponseDTO;
 import com.devsenior.cdiaz.bibliokeep.repository.UserRepository;
@@ -29,11 +31,11 @@ public class AuthServiceImpl implements AuthService {
             var auth = new UsernamePasswordAuthenticationToken(body.email(), body.password());
             authenticationManager.authenticate(auth);
         } catch (BadCredentialsException ex) {
-            throw new RuntimeException("Credenciales inválidas");
+            throw new InvalidCredentialsException();
         }
 
         var user = userRepository.findByEmail(body.email())
-            .orElseThrow(() -> new RuntimeException("No existe el usuario con email: "+body.email()));
+            .orElseThrow(() -> new  NotFoundException("No existe el usuario con email: "+body.email()));
         var claims = Map.<String, Object>of(
             "user-id", user.getId(),
             "roles", user.getRoles().stream()

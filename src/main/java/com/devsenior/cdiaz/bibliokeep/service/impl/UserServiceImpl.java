@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.mapper.UserMapper;
 import com.devsenior.cdiaz.bibliokeep.model.dto.UserRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.UserResponseDTO;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDTO getUserById(UUID id) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con ID: " + id));
         return userMapper.toResponseDTO(user);
     }
 
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDTO updateUser(UUID id, UserRequestDTO userRequestDTO) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con ID: " + id));
 
         if (userRepository.existsByEmail(userRequestDTO.email()) && !user.getEmail().equals(userRequestDTO.email())) {
             throw new RuntimeException("El email ya está registrado");
@@ -95,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Usuario no encontrado con ID: " + id);
+            throw new NotFoundException("Usuario no encontrado con ID: " + id);
         }
         userRepository.deleteById(id);
     }

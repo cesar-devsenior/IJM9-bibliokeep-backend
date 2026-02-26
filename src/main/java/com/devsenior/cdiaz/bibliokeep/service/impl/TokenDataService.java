@@ -6,6 +6,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.devsenior.cdiaz.bibliokeep.model.vo.JwtUser;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public abstract class TokenDataService {
     
     protected UUID getUserId() {

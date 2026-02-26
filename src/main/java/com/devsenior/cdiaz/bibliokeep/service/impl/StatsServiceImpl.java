@@ -1,10 +1,9 @@
 package com.devsenior.cdiaz.bibliokeep.service.impl;
 
-import java.time.LocalDate;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.model.dto.DashboardStatsDTO;
 import com.devsenior.cdiaz.bibliokeep.model.entity.BookStatus;
 import com.devsenior.cdiaz.bibliokeep.repository.BookRepository;
@@ -27,7 +26,7 @@ public class StatsServiceImpl extends TokenDataService implements StatsService {
     public DashboardStatsDTO getDashboardStats() {
         var userId = getUserId();
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con ID: " + userId));
 
         var totalBooks = bookRepository.countByOwnerId(userId);
         var reading = bookRepository.countByOwnerIdAndStatus(userId, BookStatus.LEYENDO);

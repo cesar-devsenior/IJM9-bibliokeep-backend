@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.mapper.LoanMapper;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoanRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoanResponseDTO;
@@ -26,7 +27,7 @@ public class LoanServiceImpl extends TokenDataService implements LoanService {
     @Transactional
     public LoanResponseDTO createLoan(LoanRequestDTO loanRequestDTO) {
         var book = bookRepository.findById(loanRequestDTO.bookId())
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + loanRequestDTO.bookId()));
+                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + loanRequestDTO.bookId()));
 
         if (book.getIsLent()) {
             throw new RuntimeException("El libro ya está prestado");
@@ -47,7 +48,7 @@ public class LoanServiceImpl extends TokenDataService implements LoanService {
     @Transactional(readOnly = true)
     public LoanResponseDTO getLoanById(Long id) {
         var loan = loanRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Préstamo no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException("Préstamo no encontrado con ID: " + id));
 
         return loanMapper.toResponseDTO(loan);
     }
@@ -72,7 +73,7 @@ public class LoanServiceImpl extends TokenDataService implements LoanService {
         }
 
         var book = bookRepository.findById(loanRequestDTO.bookId())
-                .orElseThrow(() -> new RuntimeException("Libro no encontrado con ID: " + loanRequestDTO.bookId()));
+                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + loanRequestDTO.bookId()));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para usar este libro");
