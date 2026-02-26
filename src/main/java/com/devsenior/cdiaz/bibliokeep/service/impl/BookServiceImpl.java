@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BookServiceImpl extends TokenDataService implements BookService {
 
+    private static final String NOT_FOUND_EXCEPTION_PATTERN = "Libro no encontrado con ID: %d";
+
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -35,7 +37,7 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional(readOnly = true)
     public BookResponseDTO getBookById(Long id) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException(String.format(NOT_FOUND_EXCEPTION_PATTERN, id)));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para acceder a este libro");
@@ -57,7 +59,7 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional
     public BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException(String.format(NOT_FOUND_EXCEPTION_PATTERN, id)));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para modificar este libro");
@@ -72,13 +74,13 @@ public class BookServiceImpl extends TokenDataService implements BookService {
     @Transactional
     public void deleteBook(Long id) {
         var book = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Libro no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException(String.format(NOT_FOUND_EXCEPTION_PATTERN, id)));
 
         if (!book.getOwnerId().equals(getUserId())) {
             throw new RuntimeException("No tienes permiso para eliminar este libro");
         }
 
-        if (book.getIsLent()) {
+        if (book.getIsLent().booleanValue()) {
             throw new RuntimeException("No se puede eliminar un libro que está prestado");
         }
 

@@ -1,17 +1,16 @@
 package com.devsenior.cdiaz.bibliokeep.mapper;
 
-import com.devsenior.cdiaz.bibliokeep.model.dto.UserRequestDTO;
-import com.devsenior.cdiaz.bibliokeep.model.dto.UserResponseDTO;
-import com.devsenior.cdiaz.bibliokeep.model.entity.User;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
+import com.devsenior.cdiaz.bibliokeep.model.dto.UserRequestDTO;
+import com.devsenior.cdiaz.bibliokeep.model.dto.UserResponseDTO;
 import com.devsenior.cdiaz.bibliokeep.model.entity.Role;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.devsenior.cdiaz.bibliokeep.model.entity.User;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
