@@ -9,12 +9,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.devsenior.cdiaz.bibliokeep.model.dto.UserRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.service.JwtService;
 
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
 public class UserControllerIT {
     
@@ -33,7 +37,7 @@ public class UserControllerIT {
     @DisplayName("Crear un usuario con role de ADMIN")
     public void createUserWithAdminRole() {
         var claims = Map.<String, Object>of(
-            "roles", List.of("ROLE_ADMIN"),
+            "roles", List.of("ADMIN"),
             "user-id", "e7b1c9d2-3f4a-4b6c-9d8e-0a1b2c3d4e5f"
         );
         var token = jwtService.generateToken(claims, "cdiaz@test.com", 60000);

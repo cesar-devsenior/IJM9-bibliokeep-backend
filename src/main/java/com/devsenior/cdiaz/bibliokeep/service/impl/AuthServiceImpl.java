@@ -11,6 +11,7 @@ import com.devsenior.cdiaz.bibliokeep.exception.InvalidCredentialsException;
 import com.devsenior.cdiaz.bibliokeep.exception.NotFoundException;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoginRequestDTO;
 import com.devsenior.cdiaz.bibliokeep.model.dto.LoginResponseDTO;
+import com.devsenior.cdiaz.bibliokeep.model.entity.Role;
 import com.devsenior.cdiaz.bibliokeep.repository.UserRepository;
 import com.devsenior.cdiaz.bibliokeep.service.AuthService;
 import com.devsenior.cdiaz.bibliokeep.service.JwtService;
@@ -39,7 +40,7 @@ public class AuthServiceImpl implements AuthService {
         var claims = Map.<String, Object>of(
             "user-id", user.getId(),
             "roles", user.getRoles().stream()
-                            .map(r -> r.getName())
+                            .map(Role::getName)
                             .toList()
         );
 
