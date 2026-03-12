@@ -1,0 +1,10 @@
+###
+POST http://localhost:8080/api/file/upload
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJ1c2VyLWlkIjoiOWYyNTFlOWMtNDE5OC00NWM2LWJlOGMtYWJlOTk0NTI3M2Q4Iiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJzdWIiOiJjZGlhekBleGFtcGxlLmNvbSIsImlhdCI6MTc3MzI3OTY3MywiZXhwIjoxNzczMzY2MDczfQ.UiY3AnzR5hr2mBuBpPdoaUiiOXPda-suBm19YOFHjLyecgctLk2flJDDrocpwlmK
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="file-test.jpg"
+
+./file-test.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
