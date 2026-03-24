@@ -61,6 +61,3 @@ jobs:
             - Commit: ${{ github.sha }}
             - Status: Verified by CI
             - Environment: Java 21 / Spring Boot
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
