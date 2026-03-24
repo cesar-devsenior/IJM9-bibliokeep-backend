@@ -27,7 +27,10 @@ jobs:
 
       - name: "Obtener la version del proyecto"
         id: get_version
-        run: echo "version=$(./gradlew properties | grep ^'version:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+        run: |
+          VERSION=$(./gradlew properties --console=plain --no-daemon | grep ^'version:' | awk '{print $2}')
+          echo "La version es: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: "Guardar el JAR"
         uses: actions/upload-artifact@v6
