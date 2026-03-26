@@ -14,6 +14,7 @@ public interface LoanMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "book", ignore = true)
+    @Mapping(target = "returned", ignore = true)
     Loan toEntity(LoanRequestDTO dto);
 
     @Mapping(target = "bookId", source = "book.id")
@@ -21,5 +22,6 @@ public interface LoanMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "book", ignore = true)
+    @Mapping(target = "returned", ignore = true)
     void updateEntityFromDTO(LoanRequestDTO dto, @MappingTarget Loan entity);
 }

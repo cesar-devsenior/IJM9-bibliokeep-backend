@@ -19,8 +19,6 @@ COPY src/ src/
 # Compilar el JAR
 RUN ./gradlew clean bootJar -x test --no-daemon
 
-RUN ls -R build/libs || echo "La carpeta no existe"
-
 # Extaer las capas (layers) del JAR usando layertools
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} application.jar
