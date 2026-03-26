@@ -9,6 +9,8 @@ COPY gradle/ gradle/
 COPY build.gradle .
 COPY settings.gradle .
 
+RUN chmod +x ./gradlew
+
 # Descargar las dependencias de gradle
 RUN ./gradlew build -x test --no-daemon > /dev/null 2>&1 || true
 
