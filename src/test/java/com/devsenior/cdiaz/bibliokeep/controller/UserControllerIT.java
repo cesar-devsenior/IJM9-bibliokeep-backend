@@ -19,7 +19,7 @@ import com.devsenior.cdiaz.bibliokeep.service.JwtService;
 
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
-public class UserControllerIT {
+class UserControllerIT {
     
     @Autowired
     private JwtService jwtService;
@@ -27,20 +27,20 @@ public class UserControllerIT {
     private RestTestClient restTestClient;
 
     @BeforeEach
-    public void init(WebApplicationContext context) {
+    void init(WebApplicationContext context) {
         restTestClient = RestTestClient.bindToApplicationContext(context)
                 .build();
     }
 
     @Test
     @DisplayName("Crear un usuario con role de ADMIN")
-    public void createUserWithAdminRole() {
+    void createUserWithAdminRole() {
         var claims = Map.<String, Object>of(
             "roles", List.of("ADMIN"),
             "user-id", "e7b1c9d2-3f4a-4b6c-9d8e-0a1b2c3d4e5f"
         );
         var token = jwtService.generateToken(claims, "cdiaz@test.com", 60000);
-        var request = new UserRequestDTO("cdiaz@test.org", "cdiaz123", Set.of(), 1, List.of("USER"));
+        var request = new UserRequestDTO("Cesar", "cdiaz@test.org", "cdiaz123", Set.of(), 1, List.of("USER"));
 
         restTestClient.post()
             .uri("/api/users")

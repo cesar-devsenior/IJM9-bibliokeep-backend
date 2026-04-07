@@ -77,10 +77,8 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Validate build configuration
-        uses: docker/build-push-action@v7
-        with:
-          call: check
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v7

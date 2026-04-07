@@ -9,6 +9,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UserRequestDTO(
+        @NotBlank(message = "El name es obligatorio")
+        String name,
+        
         @NotBlank(message = "El email es obligatorio")
         @Email(message = "El email debe tener un formato válido")
         String email,
