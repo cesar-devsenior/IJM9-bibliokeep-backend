@@ -23,7 +23,7 @@ RUN ./gradlew clean bootJar -x test --no-daemon
 ARG JAR_FILE=build/libs/*.jar
 RUN echo ${JAR_FILE}
 
-COPY ${JAR_FILE} application.jar
+COPY $JAR_FILE application.jar
 RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
 
 # -- Stage 2 - Runner
