@@ -1,6 +1,6 @@
 # -- Stage 1 - Builder
 # Perform the extraction in a separate builder container
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-jammy AS builder
 WORKDIR /builder
 
 # Copia de Gradle al contenedor
@@ -19,10 +19,8 @@ COPY src/ src/
 # Compilar el JAR
 RUN ./gradlew clean bootJar -x test --no-daemon
 
-RUN tree
-
 # Extaer las capas (layers) del JAR usando layertools
-ARG JAR_FILE=builder/build/libs/*.jar
+ARG JAR_FILE=build/libs/*.jar
 
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
