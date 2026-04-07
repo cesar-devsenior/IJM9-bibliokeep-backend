@@ -19,8 +19,10 @@ COPY src/ src/
 # Compilar el JAR
 RUN ./gradlew clean bootJar -x test --no-daemon
 
+RUN tree
+
 # Extaer las capas (layers) del JAR usando layertools
-ARG JAR_FILE=/builder/build/libs/*.jar
+ARG JAR_FILE=builder/build/libs/*.jar
 
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
